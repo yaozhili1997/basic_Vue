@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h3>1.事件处理方法 v-on或@</h3>
+        <button v-on:click="say">say {{msg}}</button>
+        <!-- $event代表的是原生的Dom事件 -->
+        <button @click="warn('hello',$event)">Warn</button>
+
+        <h3>2.事件修饰符</h3>
+        <!-- 2.1 防止单击事件继续传播 -->
+        <div @click="todo">
+            <button @click="doThis">单击事件会继续传播</button>
+        </div>
+
+        <div @click="todo">
+            <!-- .stop作用，是阻止事件的传播 -->
+            <button @click.stop="doThis">阻止事件继续传播</button>
+        </div>
+    </br>
+        <!-- 2.2阻止事件的默认行为 -->
+        <a href="http://www.baidu.com" @click.prevent="dostop">百度的官网</a>
+
+        <!-- 点击事件只会出发触发一次 -->
+        <button @click.once="doOnly">点击事件只会触发一次：{{num}}</button>
+</br>
+        <!-- 按键修饰符 -->
+        <input type="text" @keyup.enter="keyEnter">
+        <input type="text" @keyup.space="KEYspace">
+
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vue=new Vue({
+            el: '#app',
+            data: {
+                msg:'Hello yzl!',
+                num: 0
+            },
+            methods: {//定义事件处理函数
+                say:function(event){
+                    //event代表的是Dom的原生事件，Vue.js他会自动的将他传入进来
+                    alert(this.msg)
+                    alert(event.target.innerHTML)
+                },
+                warn:function(name,event){
+                    //如果说函数有多个参数，而需要使用原生的事件，则需要使用$event作为参数传入
+                    alert(name+","+event.target.tagName)
+                },
+                doThis: function(){
+                    alert('doThis')
+                },
+                todo:function(){
+                    alert('todo.....')
+                },
+                dostop:function(){
+                    alert('dostop....默认行为已经被阻止')
+                },
+                doOnly:function(){
+                    this.num++
+                },
+                keyEnter:function(){
+                    alert("当前按的是回车键")
+                },
+                KEYspace:function(){
+                    alert("当前按得是空格键")
+                }
+
+            },
+        })
+    </script>
+</body>
+</html>

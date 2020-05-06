@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        数学：<input type="text" v-model="mathScore">
+        英语：<input type="text" v-model="englishScore"></br>
+        <!-- v-model调用函数时，不要少了小括号 -->
+        总得分(函数-单向绑定)：<input type="text" v-model="sumScore()"></br>
+        <!-- 绑定计算属性不需要小括号 -->
+        总的分（计算属性-单向绑定）：<input type="text" v-model="sumScore1"></br>
+        总的分（计算属性-双向绑定）：<input type="text" v-model="sumScore2"></br>
+
+        <!-- 通过watch选项监听数学分数，当数学更新后回调函数中重新计算总分sumSource3 -->
+        总的分（监听器）：<input type="text" v-model="sumScore3">
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        /* 
+        1.函数没有缓存，每次都会被调用
+        2.计算属性有缓存值，只有当计算属性体内的属性值被改变之后才会被调用，不然不会调用
+        3.函数只支持单向
+        4.计算属性默认情况下，只有getter方法，而没有setter函数，所以只支持单向
+            如果你要进行双向，则需要定义setter函数
+        */
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                mathScore: 80,
+                englishScore: 90,
+                sumScore3: 0 //通过监听器计算出来的总得分
+            },
+
+            methods: {
+                sumScore: function () {
+                    console.log('sumScore函数调用了')
+                    //this指向的就是vm实例,减0是为了字符串转为数字运算
+                    return (this.mathScore - 0) + (this.englishScore - 0)
+                }
+            },
+
+            computed: {//定义计算属性选项
+                // 这个是单向绑定，默认只有getter方法
+                sumScore1: function () {
+                    //计算属性有缓存值，如果计算属性体内属性值没有发生改变，则不会发生重新计算
+                    console.log('sumScore1计算属性被调用')
+                    return (this.mathScore - 0) + (this.englishScore - 0)
+                },
+
+                // 有了set和get后就可以进行数据的双向绑定
+                sumScore2: {
+                    // 获取数据
+                    get: function () {
+                        console.log('sumScore2get被调用')
+                        return (this.mathScore - 0) + (this.englishScore - 0)
+                    },
+
+                    // 设置数据,当计算属性被更新后，才会调用set方法
+                    set: function (newValue) {
+                        console.log('sumScore2set被调用')
+                        var avgScore = newValue / 2
+                        this.mathScore = avgScore
+                        this.englishScore = avgScore
+                    }
+                }
+            },
+
+            // 监听器
+            watch: {
+                mathScore: function (newValue, oldValue) {
+                    console.log('监听器监听到了数学成绩已经更新')
+                    // newValue是更新后的值,oldValue是更新前的值
+                    this.sumScore3 = (newValue - 0) + (this.englishScore - 0)
+                }
+            }
+        })
+
+        // 监听器方式二：进行vm实例进行调用
+        // 第一个参数是被监听的属性名，第二个是回调函数
+        vm.$watch('englishScore', function (newValue) {
+            console.log('英语成绩更新了'+(newValue-0)+' '+this.mathScore)
+            //newValue 就是新输入的英语得分            
+            this.sumScore3 = (newValue - 0) + (this.mathScore - 0)
+            console.log('更新结束')
+        }) 
+    </script>
+</body>
+
+</html>

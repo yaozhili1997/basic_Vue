@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 显示或隐藏的过渡效果  */
+        .yzl-enter-active,
+        .yzl-leave-active {
+            transition: opacity 1s;
+        }
+
+        .yzl-enter,
+        .yzl-leave-to {
+            opacity: 0;
+            /* 都是隐藏效果 */
+        }
+        /* 可以针对显示和隐藏指定不同的效果 */
+        /* 显示过渡效果1秒 */
+        .cq-enter-active{
+            transition: all 1s;/* all 所有效果持续一秒*/
+        }
+        /* 隐藏过渡效果 */
+        .cq-leave-active{
+            transition: all 5s;/* all 所有效果持续一秒*/
+        }
+
+        /* 显示前和隐藏后的效果 */
+        .cq-leave-active,
+        .cq-leave-active {
+            opacity: 0;/* 都是隐藏效果 */
+            transform:translateX(10px)
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app1">
+        <button @click="show=!show">渐变过滤</button>
+        <transition name="yzl">
+            <p v-show="show">yaozhili</p>
+        </transition>
+    </div>
+    </br>
+    <div id="app2">
+    <button @click="show=!show">渐变平滑过渡</button>
+    <transition name="cq">
+        <p v-show="show">chengqi</p>
+    </transition>
+    </br>
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app1',
+            data: {
+                show: true
+            }
+        })
+        new Vue({
+            el: '#app2',
+            data: {
+                show: true
+            }
+        })
+    </script>
+</body>
+
+</html>

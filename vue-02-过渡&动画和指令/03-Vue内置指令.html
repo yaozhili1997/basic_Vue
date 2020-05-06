@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    [v-clock]{
+        display: none;
+    }
+</style>
+
+<body>
+    <div id="app" v-vlock>
+        <!-- v-pre可以用来显示原始插入值标签 {{}} 。并跳过这个元素和它的子元素的编译过程。加快编译。
+        例如：网页中的一篇文章，文章内容不需要被 Vue 管理渲染，则可以在此元素上添加 v-pre 忽略文章编译提高性能。 -->
+        <span v-pre>{{你好，成都！}}</span>
+        <!-- {{}} 会造成闪烁问题， v-text 不会闪烁
+        如果还想用 {{}} 又不想有闪烁问题，则使用 v-cloak 来处理
+        -->
+        <h3>{{msg}}</h3>
+        <h3>{{msg}}</h3>
+        <h3>{{msg}}</h3>
+        <h3 v-text="message"></h3>
+        <h3 v-text="message"></h3>
+        <h3 v-text="message"></h3>
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                msg: "你好，成都！"
+            }
+        })
+    </script>
+
+</body>
+
+</html>

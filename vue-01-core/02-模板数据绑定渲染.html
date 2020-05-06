@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- JS表达式 -->
+    <div id="app">
+        <h3>1.{{}}双大括号输出文本内容</h3>
+        <!-- 文本内容 -->
+        <p>{{message}}</p>
+        <!-- js表达式 -->
+        <p>{{score+1}}</p>
+
+        <h3>2.一次性插值 v-once</h3>
+        <span v-once>双大括号：{{message}}</span>
+        <!--
+            v-html:
+            1.如果输出的内容是HTML数据，双大括号将数据普通文本方式进行输出
+             为了输出真正的HTML效果，就需要v-html指定
+             2.为了阻止xss攻击
+         -->
+
+        <h3>3.指令输出真正的html 内容  v-html</h3>
+        <p>v-html:<span v-html="contentHtml"></span></p>
+
+        <h4>4.元素绑定指令 v-bind</h4>
+        <img v-bind:src="imgUrl"> 
+        <img :src="imgUrl">
+        <a :href="yzl">姚志立的博客，跳转</a>
+
+        <h3>5.事件绑定指令 v-on</h3>
+        <input type="text" value="1" v-model="num">
+        <button @click="add">点击加一</button>
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+
+    <script>
+        var vm=new Vue({
+            el: '#app',
+            data: {
+                message: 'yaozhili',
+                score: 100  ,
+                contentHtml: `<span style="color:red">此内容为红色<script>alert('hello,yzl')<\/script></span>`,
+                imgUrl:'https://cn.vuejs.org/images/logo.png',
+                yzl:'http://yaozhili.xyz:8080/',
+                num:10
+            },methods: {//指定时间处理函数
+                add:function(){//定义了add函数
+                    console.log('add被调用')
+                    this.num++
+                }
+            }
+        })
+    </script>
+</body>
+</html>

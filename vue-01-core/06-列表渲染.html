@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h3>1.迭代数值</h3>
+        <ul>
+            <!-- e代表的是emps数值的笔名 index数组的下标，从0开始-->
+            <!-- 注意：使用key特殊属性，它会基于key的变化重新排列元素的顺序，并且会移除key不存在的元素 
+                可以使用of或者in作为分隔符
+            -->
+            <li v-for="(e, index) in emps" v-blind:key="index">
+                编号:{{index+1}},姓名:{{e.name}},工资：{{e.salary}}
+            </li>
+        </ul>
+
+        <h3>2.迭代对象</h3>
+        <ul>
+            <!-- value对应的是对象的属性值，key对应的就是对象的属性名，index索引值 -->
+            <li  v-for="(value,key,index) in person">
+                第{{index+1}}个属性为：{{key}}={{value}}
+            </li>
+        </ul>
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vue=new Vue({
+            el: '#app',
+            data: {
+                emps:[
+                    {name: '马云',salary: '20000'},
+                    {name: '刘强东',salary: '18000'},
+                    {name: '马化腾',salary:'17000'}
+                ],
+                person:{
+                    name: '姚志立',
+                    age: 18
+
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>
